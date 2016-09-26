@@ -26136,9 +26136,15 @@ var ReactRouter = require('react-router');
 var Router = ReactRouter.Router;
 var Route = ReactRouter.Route;
 
+// var CreateHistory = require('history/lib/createHashHistory');
+//
+// var History = new CreateHistory({
+//   queryKey: false
+// });
+
 var Base = require('./components/Base.jsx');
-var Page1 = require('./components/Page1.jsx');
-var Page2 = require('./components/Page2.jsx');
+var News = require('./components/News.jsx');
+var Images = require('./components/Images.jsx');
 
 var Routes = React.createElement(
   Router,
@@ -26146,33 +26152,100 @@ var Routes = React.createElement(
   React.createElement(
     Route,
     { path: '/', component: Base },
-    React.createElement(Route, { path: '/page1', component: Page1 }),
-    React.createElement(Route, { path: '/page2', component: Page2 })
+    React.createElement(Route, { path: '/news', component: News }),
+    React.createElement(Route, { path: '/images', component: Images })
   )
 );
 
 module.exports = Routes;
 
-},{"./components/Base.jsx":236,"./components/Page1.jsx":237,"./components/Page2.jsx":238,"react":233,"react-router":64}],236:[function(require,module,exports){
+},{"./components/Base.jsx":236,"./components/Images.jsx":238,"./components/News.jsx":239,"react":233,"react-router":64}],236:[function(require,module,exports){
 var React = require('react');
 
 var Base = React.createClass({
-  displayName: 'Base',
+  displayName: "Base",
 
   render: function () {
     return React.createElement(
-      'div',
+      "div",
       null,
       React.createElement(
-        'h1',
-        null,
-        'Header'
+        "nav",
+        { className: "navbar navbar-liz" },
+        React.createElement(
+          "div",
+          { className: "container" },
+          React.createElement(
+            "div",
+            { className: "navbar-header" },
+            React.createElement(
+              "button",
+              { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1", "aria-expanded": "false" },
+              React.createElement(
+                "span",
+                { className: "sr-only" },
+                "Toggle navigation"
+              ),
+              React.createElement("span", { className: "icon-bar" }),
+              React.createElement("span", { className: "icon-bar" }),
+              React.createElement("span", { className: "icon-bar" })
+            ),
+            React.createElement(
+              "a",
+              { className: "navbar-brand leftBrand", href: "#" },
+              React.createElement(
+                "h2",
+                null,
+                "Liz's News"
+              ),
+              React.createElement(
+                "h5",
+                null,
+                "this is a sub header"
+              )
+            )
+          ),
+          React.createElement(
+            "div",
+            { className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
+            React.createElement(
+              "ul",
+              { className: "nav navbar-nav navbar-right" },
+              React.createElement(
+                "li",
+                null,
+                React.createElement(
+                  "a",
+                  { href: "#/news" },
+                  "NEWS"
+                )
+              ),
+              React.createElement(
+                "li",
+                null,
+                React.createElement(
+                  "a",
+                  { href: "#/images" },
+                  "IMAGES"
+                )
+              )
+            )
+          )
+        )
       ),
-      this.props.children,
       React.createElement(
-        'h1',
-        null,
-        'Footer'
+        "div",
+        { className: "container" },
+        this.props.children
+      ),
+      React.createElement(
+        "div",
+        { className: "footer-liz" },
+        React.createElement(
+          "p",
+          null,
+          "this is a footer"
+        )
       )
     );
   }
@@ -26182,43 +26255,171 @@ module.exports = Base;
 
 },{"react":233}],237:[function(require,module,exports){
 var React = require('react');
-
-var Page1 = React.createClass({
-  displayName: 'Page1',
+var ImageItem = React.createClass({
+  displayName: "ImageItem",
 
   render: function () {
     return React.createElement(
-      'h1',
-      null,
-      'Page 1'
+      "div",
+      { className: "col-md-4 imgContainer" },
+      React.createElement("img", { className: "fitContainer", src: this.props.picture })
     );
   }
 });
 
-module.exports = Page1;
+module.exports = ImageItem;
 
 },{"react":233}],238:[function(require,module,exports){
 var React = require('react');
+var ImageItem = require('./ImageItem.jsx');
 
-var Page2 = React.createClass({
-  displayName: 'Page2',
+var pictures = [{
+  "id": 1,
+  "image": "https://hd.unsplash.com/photo-1464013778555-8e723c2f01f8",
+  "title": "Image 1"
+}, {
+  "id": 2,
+  "image": "https://hd.unsplash.com/photo-1468818519844-64bc429824de",
+  "title": "Image 2"
+}, {
+  "id": 3,
+  "image": "https://hd.unsplash.com/photo-1471623817296-aa07ae5c9f47",
+  "title": "Image 3"
+}, {
+  "id": 4,
+  "image": "https://hd.unsplash.com/photo-1466220666686-90bdba318c9a",
+  "title": "Image 4"
+}, {
+  "id": 5,
+  "image": "https://hd.unsplash.com/photo-1466220666686-90bdba318c9a",
+  "title": "Image 5"
+}, {
+  "id": 6,
+  "image": "https://hd.unsplash.com/photo-1466220666686-90bdba318c9a",
+  "title": "Image 6"
+}, {
+  "id": 7,
+  "image": "https://hd.unsplash.com/photo-1468852747768-9d51ceb4422d",
+  "title": "Image 7"
+}, {
+  "id": 8,
+  "image": "https://hd.unsplash.com/photo-1461360370896-922624d12aa1",
+  "title": "Image 8"
+}, {
+  "id": 9,
+  "image": "https://hd.unsplash.com/photo-1468852747768-9d51ceb4422d",
+  "title": "Image 9"
+}];
+var Images = React.createClass({
+  displayName: 'Images',
 
   render: function () {
+    var imageItems = pictures.map(function (item) {
+      return React.createElement(ImageItem, { key: item.id, picture: item.image, title: item.title });
+    });
     return React.createElement(
-      'h1',
-      null,
-      'Page 2'
+      'div',
+      { className: 'row' },
+      React.createElement(
+        'div',
+        { className: 'col-sm-12' },
+        imageItems
+      )
     );
   }
 });
 
-module.exports = Page2;
+module.exports = Images;
 
-},{"react":233}],239:[function(require,module,exports){
+},{"./ImageItem.jsx":237,"react":233}],239:[function(require,module,exports){
+var React = require('react');
+var NewsItem = require('./NewsItem.jsx');
+
+var articles = [{
+  "id": 1,
+  "image": "http://placehold.it/50x50",
+  "name": "News Title 1",
+  "subname": "this is a subheader for news1",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}, {
+  "id": 2,
+  "image": "http://placehold.it/50x50",
+  "name": "News Title 2",
+  "subname": "this is a subheader for news2",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}, {
+  "id": 3,
+  "image": "http://placehold.it/50x50",
+  "name": "News Title 3",
+  "subname": "this is a subheader for news3",
+  "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+}];
+
+var News = React.createClass({
+  displayName: 'News',
+
+  render: function () {
+    var newsItems = articles.map(function (item) {
+      return React.createElement(NewsItem, { key: item.id, article: item.name, subarticle: item.subname, text: item.text, image: item.image });
+    });
+    return React.createElement(
+      'div',
+      { className: 'row' },
+      React.createElement(
+        'div',
+        { className: 'col-sm-12 newsBox' },
+        newsItems
+      )
+    );
+  }
+});
+
+module.exports = News;
+
+},{"./NewsItem.jsx":240,"react":233}],240:[function(require,module,exports){
+var React = require('react');
+var NewsItem = React.createClass({
+  displayName: "NewsItem",
+
+  render: function () {
+    return React.createElement(
+      "div",
+      { className: "row newsItems" },
+      React.createElement(
+        "div",
+        { className: "col-md-2 imgCol" },
+        React.createElement("img", { src: this.props.image })
+      ),
+      React.createElement(
+        "div",
+        { className: "col-md-10" },
+        React.createElement(
+          "h3",
+          null,
+          this.props.article
+        ),
+        React.createElement(
+          "h5",
+          { className: "subArticle" },
+          this.props.subarticle
+        ),
+        React.createElement(
+          "p",
+          null,
+          this.props.text
+        )
+      )
+    );
+  }
+});
+
+module.exports = NewsItem;
+
+},{"react":233}],241:[function(require,module,exports){
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Routes = require('./Routes.jsx');
 
 ReactDOM.render(Routes, document.getElementById('main'));
 
-},{"./Routes.jsx":235,"react":233,"react-dom":34}]},{},[239]);
+},{"./Routes.jsx":235,"react":233,"react-dom":34}]},{},[241]);
